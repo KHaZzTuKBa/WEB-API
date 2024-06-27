@@ -18,8 +18,8 @@ namespace WebAPI.Controllers
             this.twitch = twitch;
         }
 
-        //запрос на запись страны
-        [HttpPost("setTwitch")]
+        //запрос на запись ссылки на Twitch
+        [HttpPatch("setTwitch")]
         public async Task<ActionResult<CountryResponse>> SetTwitch(TwitchDTO twitchDTO)
         {
             var result = await twitch.SetTwitch(twitchDTO);

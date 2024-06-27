@@ -13,6 +13,6 @@ namespace Application.Contract
     //шаблон класса, здесь определяются какие методы будет реализовать данный класс, какие запросы обрабатывать
     public interface IRating
     {
-        Task<RatingResponse> ManipulateMMR(RatingDTO ratingDTO, RatigStatus status);
+        Task<RatingResponse> ManipulateMMR(RatingDTO ratingDTO);
     }
 }

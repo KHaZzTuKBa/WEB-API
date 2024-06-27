@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         }
 
         //запрос на смену пароля
-        [HttpPost("changePassword")]
+        [HttpPatch("changePassword")]
         public async Task<ActionResult<ChangePasswordResponse>> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
             var result = await user.ChangePasswordAsync(changePasswordDTO);

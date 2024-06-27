@@ -15,8 +15,9 @@ namespace WebAPI.Controllers
             this.statistics = statistics;
         }
 
-        [HttpPost("getStatistics")]
-        public async Task<ActionResult<StatisticsResponse>> GetStatistics(StatisticsDTO statisticsDTO)
+        //запрос на получение игровой статистики пользователя
+        [HttpGet("getStatistics")]
+        public async Task<ActionResult<StatisticsResponse>> GetStatistics([FromQuery]StatisticsDTO statisticsDTO)
         {
             var result = await statistics.GetStatistics(statisticsDTO);
             return Ok(result);

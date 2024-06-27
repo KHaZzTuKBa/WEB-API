@@ -2,7 +2,7 @@
 
 namespace Application.DTOs.Country
 {
-    //класс определяет какие поля мы получаем в запросе на СТРАНУ
+    //класс определяет какие поля мы получаем в запросе на "СТРАНУ"
     public class CountryDTO
     {
         [Required]

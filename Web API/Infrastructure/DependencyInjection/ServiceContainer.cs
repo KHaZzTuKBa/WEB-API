@@ -39,12 +39,16 @@ namespace Infrastructure.DependencyInjection
                     (Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
                 };
             });
+            
+            //добавление зависимостей
             services.AddScoped<IRating, RatingRepo>();
             services.AddScoped<IUser, UserRepo>();
             services.AddScoped<IGames, StatisticsRepo>();
             services.AddScoped<IProfile, ProfileRepo>();
             services.AddScoped<ICountry, CountryRepo>();
             services.AddScoped<ITwitch, TwitchRepo>();
+            services.AddScoped<IAge, AgeRepo>();
+            services.AddScoped<IAbout, AboutRepo>();
             services.AddScoped<IInfo, InfoRepo>();
 
             return services;

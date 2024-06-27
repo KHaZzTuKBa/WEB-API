@@ -17,9 +17,9 @@ namespace WebAPI.Controllers
             this.info = info;
         }
 
-        //запрос на запись страны
-        [HttpPost("getInfo")]
-        public async Task<ActionResult<InfoResponse>> GetInfo(InfoDTO infoDTO)
+        //запрос на получение персональной информации о пользователе
+        [HttpGet("getInfo")]
+        public async Task<ActionResult<InfoResponse>> GetInfo([FromQuery]InfoDTO infoDTO)
         {
             var result = await info.GetInfo(infoDTO);
             return Ok(result);

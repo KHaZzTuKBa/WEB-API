@@ -14,7 +14,7 @@ using Application.DTOs.ChangePassword;
 
 namespace Infrastructure.Repo
 {
-    //класс для обработки запроса по ПОЛЬЗОВАТЕЛЮ из контроллера
+    //класс для обработки запроса по "ПОЛЬЗОВАТЕЛЮ" из контроллера
     internal class UserRepo : IUser
     {
         private readonly AppDbContext appDbContext;
@@ -54,11 +54,19 @@ namespace Infrastructure.Repo
         private async Task<UserTwitch> FindTwitchUserByName(string name) =>
            await appDbContext.Twitch.FirstOrDefaultAsync(x => x.UserName == name);
 
+        //поиск пользователя в таблице AboutUsers по имени
+        private async Task<AboutUser> FindAboutUserByName(string name) =>
+           await appDbContext.AboutUsers.FirstOrDefaultAsync(x => x.UserName == name);
+
+        //поиск пользователя в таблице Ages по имени
+        private async Task<UserAge> FindAgeUserByName(string name) =>
+           await appDbContext.Ages.FirstOrDefaultAsync(x => x.UserName == name);
+
         //поиск пользователя в таблице Info по имени
         private async Task<UserInfo> FindTnfoUserByName(string name) =>
            await appDbContext.Info.FirstOrDefaultAsync(x => x.Name == name);
 
-        //обработка запроса на регистрацию
+        //обработка запроса на вход
         public async Task<LoginResponse> LoginUserAsync(LoginDTO loginDTO)
         {
             var getUser = await FindUserByName(loginDTO.UserName!);
@@ -159,12 +167,26 @@ namespace Infrastructure.Repo
                 UserName = newUser.Name,
                 Link = "-"
             });
+            appDbContext.AboutUsers.AddAsync(new AboutUser()
+            {
+                Id = newUser.Id,
+                UserName = newUser.Name,
+                About = ""
+            });
+            appDbContext.Ages.AddAsync(new UserAge()
+            {
+                Id = newUser.Id,
+                UserName = newUser.Name,
+                Age = null
+            });
             appDbContext.Info.AddAsync(new UserInfo()
             {
                 Id = newUser.Id,
                 Name = newUser.Name,
                 Country = "-",
-                Link= "-"
+                Link= "-",
+                About = "",
+                Age = null
             });
 
             await appDbContext.SaveChangesAsync();
@@ -196,6 +218,8 @@ namespace Infrastructure.Repo
             appDbContext.Profiles.Remove(await FindProfileUserByName(deleteUserDTO.UserName));
             appDbContext.Country.Remove(await FindCountyUserByName(deleteUserDTO.UserName));
             appDbContext.Twitch.Remove(await FindTwitchUserByName(deleteUserDTO.UserName));
+            appDbContext.Ages.Remove(await FindAgeUserByName(deleteUserDTO.UserName));
+            appDbContext.AboutUsers.Remove(await FindAboutUserByName(deleteUserDTO.UserName));
             appDbContext.Info.Remove(await FindTnfoUserByName(deleteUserDTO.UserName));
 
             await appDbContext.SaveChangesAsync();

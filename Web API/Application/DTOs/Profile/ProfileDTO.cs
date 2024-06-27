@@ -2,7 +2,7 @@
 
 namespace Application.DTOs.Profile
 {
-    //класс определяет какие поля мы получаем в запросе на ПРОФИЛЬ
+    //класс определяет какие поля мы получаем в запросе на "ПРОФИЛЬ"
     public class ProfileDTO
     {
         [Required]

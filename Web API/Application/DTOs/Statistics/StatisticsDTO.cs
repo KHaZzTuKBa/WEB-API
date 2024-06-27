@@ -2,7 +2,7 @@
 
 namespace Application.DTOs.Statistics
 {
-    //класс определяет какие поля мы получаем в запросе на ИГРЫ
+    //класс определяет какие поля мы получаем в запросе на "СТАТИСТИКУ ИГР"
     public class StatisticsDTO
     {
         [Required]

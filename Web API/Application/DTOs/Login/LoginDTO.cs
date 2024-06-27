@@ -2,7 +2,7 @@
 
 namespace Application.DTOs.Login
 {
-    //класс определяет какие поля мы получаем в запросе на ЛОГИН
+    //класс определяет какие поля мы получаем в запросе на "ЛОГИН"
     public class LoginDTO
     {
         [Required]

@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         }
 
         //запрос на запись страны
-        [HttpPost("setCountry")]
+        [HttpPatch("setCountry")]
         public async Task<ActionResult<CountryResponse>> SetCountry(CountryDTO countryDTO)
         {
             var result = await country.SetCountry(countryDTO);

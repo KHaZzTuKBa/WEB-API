@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Repo
 {
-    //класс для обработки запроса по СТАТИСТИКЕ из контроллера
+    //класс для обработки запроса по "СТАТИСТИКЕ" из контроллера
     internal class StatisticsRepo : IGames
     {
         private readonly AppDbContext appDbContext;

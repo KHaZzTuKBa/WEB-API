@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Repo
 {
-    //класс для обработки запроса по СТРАНЕ из контроллера
+    //класс для обработки запроса по "СТРАНЕ" из контроллера
     internal class CountryRepo : ICountry
     {
         private readonly AppDbContext appDbContext;
@@ -23,6 +23,10 @@ namespace Infrastructure.Repo
         private async Task<UserCountry> FindCountyUserByName(string name) =>
            await appDbContext.Country.FirstOrDefaultAsync(x => x.Name == name);
 
+        //поиск пользователя в таблице Info по имени
+        private async Task<UserInfo> FindTnfoUserByName(string name) =>
+           await appDbContext.Info.FirstOrDefaultAsync(x => x.Name == name);
+
         public async Task<CountryResponse> SetCountry(CountryDTO countryDTO)
         {
             var getUser = await FindCountyUserByName(countryDTO.UserName!);
@@ -32,6 +36,9 @@ namespace Infrastructure.Repo
             }
 
             getUser.Country = countryDTO.Country;
+
+            var getInfoUser = await FindTnfoUserByName(countryDTO.UserName!);
+            getInfoUser.Country = countryDTO.Country;
 
             appDbContext.SaveChangesAsync();
 

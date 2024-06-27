@@ -19,9 +19,9 @@ namespace WebAPI.Controllers
 
         //запрос на получение/изменение рейтинга
         [HttpPost("rating")]
-        public async Task<ActionResult<RatingResponse>> MMR(RatingDTO ratingDTO, RatigStatus status)
+        public async Task<ActionResult<RatingResponse>> MMR(RatingDTO ratingDTO)
         {
-            var result = await rating.ManipulateMMR(ratingDTO, status);
+            var result = await rating.ManipulateMMR(ratingDTO);
             return Ok(result);
         }
     }

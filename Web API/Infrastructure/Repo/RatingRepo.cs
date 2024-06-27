@@ -1,18 +1,13 @@
-﻿using System;
-using Application.Contract;
+﻿using Application.Contract;
 using Domain.Entities;
 using Infrastructure.Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Application.DTOs.Rating;
 
 namespace Infrastructure.Repo
 {
-    //класс для обработки запроса по РЕЙТИНГУ из контроллера
+    //класс для обработки запроса по "РЕЙТИНГУ" из контроллера
     internal class RatingRepo : IRating
     {
         private readonly AppDbContext appDbContext;
@@ -33,7 +28,7 @@ namespace Infrastructure.Repo
             await appDbContext.Statistics.FirstOrDefaultAsync(x => x.Name == name);
 
         //обработка запроса по рейтингу
-        public async Task<RatingResponse> ManipulateMMR(RatingDTO ratingDTO, RatigStatus status)
+        public async Task<RatingResponse> ManipulateMMR(RatingDTO ratingDTO)
         {
             var getUser = await FindUserByName(ratingDTO.UserName);
             if (getUser == null)
@@ -44,7 +39,7 @@ namespace Infrastructure.Repo
             var getUserStats = await FindStatUserByName(ratingDTO.UserName);
             getUserStats.TotalGames++;
 
-            switch (status)
+            switch (ratingDTO.status)
             {
                 case RatigStatus.Victory:
                     getUser.Rating += (2000 - getUser.Rating) / 40;

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Repo
 {
-    //класс для обработки запроса по ПРОФИЛЮ из контроллера
+    //класс для обработки запроса по "ПРОФИЛЮ" из контроллера
     internal class ProfileRepo : IProfile
     {
         private readonly AppDbContext appDbContext;

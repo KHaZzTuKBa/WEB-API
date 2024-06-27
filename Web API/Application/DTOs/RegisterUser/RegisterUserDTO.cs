@@ -2,7 +2,7 @@
 
 namespace Application.DTOs.RegisterUser
 {
-    //класс определяет какие поля мы получаем в запросе на РЕГИСТРАЦИЮ
+    //класс определяет какие поля мы получаем в запросе на "РЕГИСТРАЦИЮ"
     public record RegisterUserDTO()
     {
         [Required]

@@ -18,9 +18,9 @@ namespace WebAPI.Controllers
             this.profile = profile;
         }
 
-        //запрос на получение профиля
-        [HttpPost("getProfile")]
-        public async Task<ActionResult<ProfileResponse>> GetProfileInfo(ProfileDTO profileDTO)
+        //запрос на получение игрового профиля пользователя
+        [HttpGet("getProfile")]
+        public async Task<ActionResult<ProfileResponse>> GetProfileInfo([FromQuery]ProfileDTO profileDTO)
         {
             var result = await profile.GetProfile(profileDTO);
             return Ok(result);
