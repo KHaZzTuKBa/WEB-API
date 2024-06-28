@@ -33,7 +33,7 @@ namespace Infrastructure.Repo
             var getUser = await FindUserByName(ratingDTO.UserName);
             if (getUser == null)
             {
-                return new RatingResponse(401, "No user with this username was found");
+                return new RatingResponse(401, "No user with this username was found", null);
             }
 
             var getUserStats = await FindStatUserByName(ratingDTO.UserName);
@@ -58,7 +58,7 @@ namespace Infrastructure.Repo
 
             appDbContext.SaveChangesAsync();
 
-            return new RatingResponse(200, getUser.Rating.ToString());
+            return new RatingResponse(200, "Success", getUser.Rating.ToString());
         }
     }
 }

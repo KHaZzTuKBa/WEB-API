@@ -24,6 +24,7 @@ builder.Services.AddSwaggerGen(swagger =>
         In = ParameterLocation.Header
     });
 });
+
 builder.Services.InfrastructureServices(builder.Configuration);
 
 var app = builder.Build();

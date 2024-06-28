@@ -206,7 +206,7 @@ namespace Infrastructure.Repo
             bool checkPassword = BCrypt.Net.BCrypt.Verify(deleteUserDTO.Password, getUser.Password);
             if (!checkPassword)
             {
-                return new DeleteUserResponse(402, "Invalid credentails:incorrect password");
+                return new DeleteUserResponse(402, "Invalid credentails: incorrect password");
             }
 
             //удаляем пользователя из базы
@@ -239,7 +239,7 @@ namespace Infrastructure.Repo
             bool checkPassword = BCrypt.Net.BCrypt.Verify(сhangePasswordDTO.OldPassword, getUser.Password);
             if (!checkPassword)
             {
-                return new ChangePasswordResponse(402, "Invalid credentails:incorrect password");
+                return new ChangePasswordResponse(402, "Invalid credentails: incorrect password");
             }
 
             getUser.Password = BCrypt.Net.BCrypt.HashPassword(сhangePasswordDTO.NewPassword);

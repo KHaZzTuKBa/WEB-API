@@ -28,10 +28,10 @@ namespace Infrastructure.Repo
             var getUser = await FindUserByName(statisticsDTO.UserName);
             if (getUser == null)
             {
-                return new StatisticsResponse(401, 0, 0, 0, 0);
+                return new StatisticsResponse(401, "User not found", 0, 0, 0, 0);
             }
 
-            return new StatisticsResponse(200, getUser.TotalGames, getUser.Wins, getUser.Defeats, getUser.Draws);
+            return new StatisticsResponse(200, "Success", getUser.TotalGames, getUser.Wins, getUser.Defeats, getUser.Draws);
         }
     }
 }
