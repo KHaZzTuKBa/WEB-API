@@ -27,9 +27,19 @@ namespace Infrastructure.Repo.GameProfile
         private async Task<GameStatistics> FindStatUserByName(string name) =>
             await appDbContext.Statistics.FirstOrDefaultAsync(x => x.Name == name);
 
+        //поиск по столбцу имени таблицы Profiles
+        private async Task<UserProfile> FindProfileUserByName(string name) =>
+            await appDbContext.Profiles.FirstOrDefaultAsync(x => x.Name == name);
+
+        //поиск по столбцу имени таблицы Guilds
+        private async Task<UserGuild> FindGuildByName(string name) =>
+            await appDbContext.Guilds.FirstOrDefaultAsync(x => x.GuildName == name);
+
         //обработка запроса по рейтингу
         public async Task<RatingResponse> ManipulateMMR(RatingDTO ratingDTO)
         {
+            int ratingDiff = 0;
+
             var getUser = await FindUserByName(ratingDTO.UserName);
             if (getUser == null)
             {
@@ -42,11 +52,11 @@ namespace Infrastructure.Repo.GameProfile
             switch (ratingDTO.status)
             {
                 case RatigStatus.Victory:
-                    getUser.Rating += (2000 - getUser.Rating) / 40;
+                    ratingDiff = (2000 - getUser.Rating) / 40;
                     getUserStats.Wins++;
                     break;
                 case RatigStatus.Defeat:
-                    getUser.Rating -= getUser.Rating / 40;
+                    ratingDiff = -getUser.Rating / 40;
                     getUserStats.Defeats++;
                     break;
                 case RatigStatus.Draw:
@@ -54,6 +64,15 @@ namespace Infrastructure.Repo.GameProfile
                     break;
                 default:
                     break;
+            }
+
+            getUser.Rating += ratingDiff;
+
+            var getProfileUser = await FindProfileUserByName(ratingDTO.UserName);
+            if(getProfileUser.Guild != "-")
+            {
+                var getGuild = await FindGuildByName(getProfileUser.Guild);
+                getGuild.GuildRatirng += ratingDiff; 
             }
 
             await appDbContext.SaveChangesAsync();

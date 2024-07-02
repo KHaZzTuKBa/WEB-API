@@ -9,9 +9,6 @@ namespace Application.DTOs.Guild.DeleteGuild
         public string GuildName { get; set; } = default!;
 
         [Required]
-        public string UserName { get; set; } = default!;
-
-        [Required]
         public string Sender { get; set; } = default!;
     }
 }

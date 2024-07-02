@@ -8,7 +8,7 @@ namespace Domain.Entities
         [Key]
         public Guid GuildId {  get; set; }
         public string GuildName { get; set; } = default!;
-        public List<UserProfile> Members { get; set; } = default!;
+        public List<string> Members { get; set; } = default!;
         public string GuildAdmin { get; set; } = default!;
         public int GuildRatirng { get; set; } = default!;
         public int MembersCount { get; set; } = default!;

@@ -17,6 +17,12 @@ namespace Infrastructure.Repo.Guild
         private readonly AppDbContext appDbContext;
         private readonly IConfiguration configuration;
 
+        public GuildRepo(AppDbContext appDbContext, IConfiguration configuration)
+        {
+            this.appDbContext = appDbContext;
+            this.configuration = configuration;
+        }
+
         //поиск по столбцу имени таблицы Profiles
         private async Task<UserProfile> FindProfileUserByName(string name) =>
             await appDbContext.Profiles.FirstOrDefaultAsync(x => x.Name == name);
@@ -25,11 +31,9 @@ namespace Infrastructure.Repo.Guild
         private async Task<UserGuild> FindGuildByName(string name) =>
             await appDbContext.Guilds.FirstOrDefaultAsync(x => x.GuildName == name);
 
-        public GuildRepo(AppDbContext appDbContext, IConfiguration configuration)
-        {
-            this.appDbContext = appDbContext;
-            this.configuration = configuration;
-        }
+        //поиск по столбцу имени таблицы Rating
+        private async Task<UserRating> FindUserRatingByName(string name) =>
+            await appDbContext.Rating.FirstOrDefaultAsync(x => x.UserName == name);
 
         public async Task<DeleteGuildResponse> DeleteGuildAsync(DeleteGuildDTO deleteGuildDTO)
         {
@@ -42,6 +46,12 @@ namespace Infrastructure.Repo.Guild
             if (getGuild.GuildAdmin != deleteGuildDTO.Sender)
             {
                 return new DeleteGuildResponse(402, "Not enough rights");
+            }
+
+            foreach (var member in getGuild.Members)
+            {
+                var getMember = await FindProfileUserByName(member);
+                getMember.Guild = "-";
             }
 
             appDbContext.Guilds.Remove(getGuild);
@@ -69,13 +79,14 @@ namespace Infrastructure.Repo.Guild
             {
                 return new DeleteGuildMemberResponse(403, "No such user");
             }
-            else if(getGuild.Members.FirstOrDefault(getUserToDelete) == null)
+            else if(getGuild.Members.FirstOrDefault(deleteGuildMembersDTO.UserToDelete) == null)
             {
                 return new DeleteGuildMemberResponse(404, "No such member in guild");
             }
 
-            getGuild.Members.Remove(getUserToDelete);
+            getGuild.Members.Remove(deleteGuildMembersDTO.UserToDelete);
             getGuild.MembersCount--;
+            getUserToDelete.Guild = "-";
 
             await appDbContext.SaveChangesAsync();
 
@@ -116,14 +127,16 @@ namespace Infrastructure.Repo.Guild
                 return new RegistrationGuildResponse(402, "User is already a member of a guild");
             }
 
+            var getRating = await FindUserRatingByName(registerGuildDTO.UserName);
+
             var newGuild = new UserGuild()
             {
                 GuildName = registerGuildDTO.GuildName,
                 MembersCount = 1,
-                Members = new List<UserProfile> { getProfile },
+                Members = new List<string> { getProfile.Name },
                 GuildAdmin = registerGuildDTO.UserName,
                 GuildDescription = "-",
-                GuildRatirng = Convert.ToInt32(getProfile.Rating)
+                GuildRatirng = getRating.Rating
             };
 
             getProfile.Guild = registerGuildDTO.GuildName;
@@ -140,7 +153,7 @@ namespace Infrastructure.Repo.Guild
             var getGuild = await FindGuildByName(getGuildDTO.GuildName);
             if(getGuild == null)
             {
-                return new GetGuildResponse(401, "Guild doesn't exist", "false", 0, 0, "false", new List<UserProfile>(0));
+                return new GetGuildResponse(401, "Guild doesn't exist", "false", 0, 0, "false", new List<string>(0));
             }
 
             return new GetGuildResponse(200, "Success", getGuild.GuildName, getGuild.MembersCount,

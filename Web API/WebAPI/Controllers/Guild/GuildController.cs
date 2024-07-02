@@ -54,7 +54,7 @@ namespace WebAPI.Controllers.Guild
 
         //запрос на получение гильдии
         [HttpGet("GetGuild")]
-        public async Task<ActionResult<GetGuildResponse>> GetGuildInfo(GetGuildDTO getGuildDTO)
+        public async Task<ActionResult<GetGuildResponse>> GetGuildInfo([FromQuery]GetGuildDTO getGuildDTO)
         {
             var result = await guild.GetGuild(getGuildDTO);
             return Ok(result);

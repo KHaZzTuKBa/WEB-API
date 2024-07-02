@@ -80,9 +80,17 @@ namespace Infrastructure.Repo.GameProfile
                 return new EntryGuildResponse(403, "Guild is already maxed out");
             }
 
+            if(getUser.Guild != "-")
+            {
+                return new EntryGuildResponse(404, "User already has a guild");
+            }
+
+            var getRating = await FindRatingUserByName(entryGuildDTO.UserName);
+
             getGuild.MembersCount++;
-            getGuild.Members.Add(getUser);
-            getGuild.GuildRatirng += Convert.ToInt32(getUser.Rating);
+            getGuild.Members.Add(entryGuildDTO.UserName);
+            getGuild.GuildRatirng += getRating.Rating;
+            getUser.Guild = entryGuildDTO.GuildName;
 
             await appDbContext.SaveChangesAsync();
 
@@ -108,9 +116,17 @@ namespace Infrastructure.Repo.GameProfile
                 return new QuitGuildResponse(403, "Single member user");
             }
 
+            if (getUser.Guild != quitGuildDTO.GuildName)
+            {
+                return new QuitGuildResponse(404, "User isn't member of this guild");
+            }
+
+            var getRating = await FindRatingUserByName(quitGuildDTO.UserName);
+
             getGuild.MembersCount--;
-            getGuild.Members.Remove(getUser);
-            getGuild.GuildRatirng -= Convert.ToInt32(getUser.Rating);
+            getGuild.Members.Remove(quitGuildDTO.UserName);
+            getGuild.GuildRatirng -= getRating.Rating;
+            getUser.Guild = "-";
 
             await appDbContext.SaveChangesAsync();
 

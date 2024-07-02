@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Guild.DeleteGuild;
+﻿using Application.DTOs.GameProfile.Profile.IsAdminOfGuild;
+using Application.DTOs.Guild.DeleteGuild;
 using Application.DTOs.Guild.DeleteMember;
 using Application.DTOs.Guild.EditDescription;
 using Application.DTOs.Guild.GetGuild;
