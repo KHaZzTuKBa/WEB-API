@@ -8,5 +8,6 @@
         public string Email { get; set; } = default!;
         public string Rating { get; set; } = default!;
         public string Wins { get; set; } = default!;
+        public string Guild { get; set; } = default!;
     }
 }

@@ -1,6 +1,12 @@
-﻿using Application.Contract;
+﻿using Application.Contract.ApplicationUser;
+using Application.Contract.GameProfile;
+using Application.Contract.Guild;
+using Application.Contract.PersonalProfile;
 using Infrastructure.Data;
-using Infrastructure.Repo;
+using Infrastructure.Repo.AppUser;
+using Infrastructure.Repo.GameProfile;
+using Infrastructure.Repo.Guild;
+using Infrastructure.Repo.PersonalProfile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -50,6 +56,7 @@ namespace Infrastructure.DependencyInjection
             services.AddScoped<IAge, AgeRepo>();
             services.AddScoped<IAbout, AboutRepo>();
             services.AddScoped<IInfo, InfoRepo>();
+            services.AddScoped<IGuild, GuildRepo>();
 
             return services;
         }

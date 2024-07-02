@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen(swagger =>
     {
         Version = "v1",
         Title = "ASP.NET 9 Web API",
-        Description = "Auth with JWT"
+        Description = "Gwent Game"
     });
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {

@@ -21,6 +21,6 @@ namespace Infrastructure.Data
         public DbSet<UserAge> Ages { get; set; }
         public DbSet<AboutUser> AboutUsers { get; set; }
         public DbSet<UserInfo> Info { get; set; }
-
+        public DbSet<UserGuild> Guilds { get; set; }
     }
 }
